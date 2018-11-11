@@ -3,27 +3,69 @@
     <div class="row">
       <div class="header">
         <p class="headerText">
-          <strong>Holiday</strong>
+          <strong>Realtime Chat Application</strong>
         </p>
       </div>
     </div>
 
     <div class="container-fluid">
       <div class="form-style formDesign">
-        <form>
+        <form  [formGroup]="chat_fg">
           <div class="section">
-            <span>1</span>Add/Update Holiday</div>
+            Inbox<span *ngIf="user_created"> - {{chat_fg?.controls?.user_name?.value}}</span></div>
+            <hr>
           <div class="inner-wrap">
             <div class="row">
-              <div class="col-md-6">
-
+              <div class="col-md-5">
+                <mat-form-field class="full-width">
+                  <input matInput formControlName="user_name" placeholder="Enter UserName">
+                  <mat-error *ngIf="chat_fg?.controls?.user_name?.errors?.required">Please enter the <strong>UserName</strong> as it is required</mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-md-5">
+                <mat-form-field class="full-width">
+                  <mat-select formControlName="room_name" placeholder="Choose Room" >
+                    <!-- <mat-option *ngFor="let food of foods" [value]="food.value">
+                      {{food.viewValue}}
+                    </mat-option> -->
+                    <mat-option value=1>1</mat-option>
+                    <mat-option value=2>2</mat-option>
+                    <mat-option value=3>3</mat-option>
+                    <mat-option value=4>4</mat-option>
+                  </mat-select>
+                  <mat-error *ngIf="chat_fg?.controls?.room_name?.errors?.required">Please select the <strong>Room</strong> as it is required</mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-md-2">
+                <button *ngIf="!user_created" type="button" color="primary" (click)="Join()" mat-raised-button>Join</button>
+                <button *ngIf="user_created" type="button" color="warn" (click)="Leave()" mat-raised-button>Leave</button>
               </div>
             </div>
-            <hr>
+            <div class="row">
+              <!-- //todo -->
+              <div class="well" style="height:200px;padding:15px">
+                <div *ngFor="let item of messageArray">
+                <span><strong>{{item.user}} </strong>{{item.message}}</span>
+              </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-10">
+                <mat-form-field class="full-width">
+                  <input matInput formControlName="messageText" placeholder="Enter Message">
+                  <mat-error *ngIf="chat_fg?.controls?.messageText?.errors?.required">Please enter the <strong>Message</strong> to send</mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-md-2">
+                <button type="button" color="primary" (click)="sendMessage()" mat-raised-button>Send</button>
+              </div>
+            </div>
+            <!-- <hr>
             <div class="row">
               <button type="submit" color="primary" mat-raised-button>Save</button>
               <button class="pull-right" type="button" color="warn" mat-raised-button>Cancel</button>
-            </div>
+            </div> -->
           </div>
         </form>
       </div>

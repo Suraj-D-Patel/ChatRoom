@@ -1,101 +1,45 @@
 var express = require('express');
-var cors = require('cors');
-var debug = require('debug')('chatapp:server');
-var http = require('http');
-var createError = require('http-errors');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
-
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
-
 var app = express();
-
-// view engine setup
-// app.set('views', path.join(__dirname, 'views'));
-// app.set('view engine', 'jade');
+var port = parseInt(process.env.PORT, 10) || 5000;
+var bodyParser = require('body-parser');
+var mongoose = require('mongoose');
+var bluebird = require('bluebird');
+var cors = require('cors');
 
 app.use(cors());
-app.use(logger('dev'));
-app.use(express.json());
-app.use(express.urlencoded({
-  extended: false
-}));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(bodyParser.json());
 
-app.use('/index', indexRouter);
+mongoose.Promise = bluebird;
+mongoose.connect('mongodb://127.0.0.1:27017/trading', { useNewUrlParser: true})
+.then(()=> { console.log(`Succesfully Connected to the Mongodb`)})
+.catch(()=> { console.log(`Error Connecting to the Mongodb`)});
+
+var indexRouter = require('./routes/index');
+app.use('', indexRouter);
+
+var usersRouter = require('./routes/users');
 app.use('/users', usersRouter);
 
-// catch 404 and forward to error handler
-app.use(function (req, res, next) {
-  next(createError(404));
+var server = app.listen(port, () => {
+  console.log('server is listening on port:' + port + '')
 });
+var io = require('socket.io').listen(server);
 
-// error handler
-app.use(function (err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
+io.on('connection', (socket)=>{
+    // console.log("new connection made ::::: ");
+    socket.on('join',(data) => {
+      // console.log("data = ",data);
+      socket.join(data.room);
+      // console.log(data.user , " joined the room :::: ",data.room);
+      socket.broadcast.to(data.room).emit('New User Joined' , {user: data.user,message:'has joined this room'});
+    });
 
-  // render the error page
-  res.status(err.status || 500);
-  res.render('error');
+    socket.on('leave', (data) => {
+      socket.broadcast.to(data.room).emit('user left' , {user:data.user,message:'has left the room'});
+      socket.leave(data.room);
+    });
+
+    socket.on('message', (data) => {
+      socket.in(data.room).emit('new message' , {user:data.user,message:data.message});
+    });
 });
-
-var port = normalizePort(process.env.PORT || '3000');
-app.set('port', port);
-var server = http.createServer(app);
-
-server.listen(port);
-server.on('error', onError);
-server.on('listening', onListening);
-
-function normalizePort(val) {
-  var port = parseInt(val, 10);
-
-  if (isNaN(port)) {
-    // named pipe
-    return val;
-  }
-
-  if (port >= 0) {
-    // port number
-    return port;
-  }
-
-  return false;
-}
-
-function onError(error) {
-  if (error.syscall !== 'listen') {
-    throw error;
-  }
-
-  var bind = typeof port === 'string' ?
-    'Pipe ' + port :
-    'Port ' + port;
-
-  // handle specific listen errors with friendly messages
-  switch (error.code) {
-    case 'EACCES':
-      console.error(bind + ' requires elevated privileges');
-      process.exit(1);
-      break;
-    case 'EADDRINUSE':
-      console.error(bind + ' is already in use');
-      process.exit(1);
-      break;
-    default:
-      throw error;
-  }
-}
-
-function onListening() {
-  var addr = server.address();
-  var bind = typeof addr === 'string' ?
-    'pipe ' + addr :
-    'port ' + addr.port;
-  debug('Listening on ' + bind);
-}
