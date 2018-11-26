@@ -1,0 +1,62 @@
+<div class="mainRoute">
+  <div class="col-md-12">
+    <div class="row">
+      <div class="header">
+        <p class="headerText">
+          <strong>Dashboard</strong>
+        </p>
+      </div>
+    </div>
+
+    <div class="container-fluid">
+      <div class="form-style formDesign">
+        <div class="inner-wrap" *ngIf="showProducts">
+          <div class="textHead">
+            <strong>
+              <u>Welcome to Dashboard</u>
+            </strong>
+          </div>
+          <hr>
+          <form>
+            <table>
+              <tr *ngFor="let product_detail of PRODUCTS_Array; let rowIndex=index">
+                <td> <img style="margin-right:12px;margin-bottom:20px" width="150px" height="120px" src="http://localhost:5000/getimages/{{product_detail.image}}"></td>
+                <td>
+              <tr>{{product_detail.title}}</tr>
+              <tr>{{product_detail.content}}</tr>
+              <tr>{{product_detail.price}}</tr>
+              </td>
+              <td><button mat-raised-button (click)="viewDetails(product_detail._id)" color="accent">View Details</button></td>
+              <br>
+              </tr>
+            </table>
+            <hr>
+          </form>
+        </div>
+
+        <div class="inner-wrap" *ngIf="showDetails">
+          <div class="textHead">
+            <strong>
+              <i>{{product_title}}</i>
+            </strong>
+          </div>
+          <hr>
+          <form>
+            <table>
+              <tr *ngFor="let product_detail of PRODUCTS_Array; let rowIndex=index">
+                <td> <img style="margin-right:12px;margin-bottom:20px" width="150px" height="120px" src="http://localhost:5000/getimages/{{product_detail.photo}}"></td>
+                <td>
+              <tr>{{product_detail.title}}</tr>
+              <tr>{{product_detail.content}}</tr>
+              <tr>{{product_detail.price}}</tr>
+              </td>
+              <td><button mat-raised-button (click)="Buy_Product(product_detail._id)" color="accent">Buy</button></td>
+              <br>
+              </tr>
+            </table>
+            <hr>
+          </form>
+        </div>
+
+      </div>
+    </div>

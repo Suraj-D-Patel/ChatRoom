@@ -1,0 +1,87 @@
+<div class="mainRoute">
+  <div class="col-md-12">
+    <div class="row">
+      <div class="header">
+        <p class="headerText">
+          <strong>Add Products</strong>
+        </p>
+      </div>
+    </div>
+
+    <div class="container-fluid" >
+      <div class="form-style formDesign">
+        <div class="textHead">
+          <strong>
+            <u>Welcome to Products Page</u>
+          </strong>
+        </div>
+        <hr>
+        <form [formGroup]="ProductsForm" >
+
+          <div class="inner-wrap">
+            <div class="row">
+              <div class="col-md-4">
+                <mat-form-field class="full-width">
+                  <input type="text" matInput (change)="validAddbutton()" placeholder="Enter Product Title *" formControlName="product_title">
+                  <mat-error>
+                    <span *ngIf="!ProductsForm.get('product_title').valid && ProductsForm.get('product_title').touched">Please enter User Name</span>
+                  </mat-error>
+                </mat-form-field>
+              </div>
+
+              <div class="col-md-4">
+                  <mat-form-field class="full-width">
+                    <input type="text" matInput (change)="validAddbutton()" placeholder="Enter Product Description *" formControlName="product_desc">
+                    <mat-error>
+                      <span *ngIf="!ProductsForm.get('product_desc').valid && ProductsForm.get('product_desc').touched">Please enter Password</span>
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+
+                <div class="col-md-4">
+                  <mat-form-field class="full-width">
+                    <input type="number" matInput (change)="validAddbutton()" placeholder="Enter Product Price *" formControlName="product_price">
+                    <mat-error>
+                      <span *ngIf="!ProductsForm.get('product_price').valid && ProductsForm.get('product_price').touched">Please enter Password</span>
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-5">
+                <app-file-upload maxFiles="5" prefix="primary_file" maxSize="5" fileExt="JPG, GIF, PNG, JPEG "
+                (uploadStatus)="refreshImages($event)">
+                </app-file-upload>
+              </div>
+
+              <div class="col-md-6">
+                  <table>
+                      <tr>
+                        <th rowspan="2"> <img style="margin-left:20px" width="320px" height="350px" src="{{getIMAGEPath}}/{{primary_image}}"></th>
+                        <td> <img style="margin-left:12px" width="150px" height="170px" src="{{getIMAGEPath}}/{{primary_image}}"></td>
+                        <td> <img style="margin-left:12px" width="150px" height="170px" src="{{getIMAGEPath}}/{{primary_image}}"></td>
+                      </tr>
+                      <tr>
+                        <td> <img style="margin-left:12px" width="150px" height="170px" src="{{getIMAGEPath}}/{{primary_image}}"></td>
+                        <td> <img style="margin-left:12px" width="150px" height="170px" src="{{getIMAGEPath}}/{{primary_image}}"></td>
+                      </tr>
+                    </table>
+              </div>
+            </div>
+<br>
+<br>
+            <!-- <div class="well">
+              <img *ngFor="let img of images" [src]="serverPath+'/getimages'" class="img-thumbnail" alt="">
+            </div> -->
+
+              <div *ngIf="showADDbutton" class="row">
+              <div class="col-md-12">
+                  <button type="button" color="primary" mat-raised-button (click)="add_products()">Add</button>
+              </div>
+            </div>
+          </div>
+          <hr>
+        </form>
+      </div>
+    </div>

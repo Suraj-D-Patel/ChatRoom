@@ -2,10 +2,30 @@
 // `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 
+// sssede
+// export const environment = {
+//   production: false,
+//   serverPath: 'https://shielded-island-19963.herokuapp.com',
+//   getIMAGE_URL: 'https://shielded-island-19963.herokuapp.com/getimages'
+// };
+
 export const environment = {
-  production: false,
-  serverPath: 'http://localhost:5000'
+  production: false
 };
+
+// export const serverPath_object = {
+//   serverPath: 'https://guarded-shore-60361.herokuapp.com',
+// };
+
+// export const getIMAGE_URL_object = {
+//   getIMAGE_URL: 'https://guarded-shore-60361.herokuapp.com',
+// };
+// export const environment = {
+//   production: false,
+//   serverPath: 'http://localhost:5000',
+//   getIMAGE_URL: 'http://localhost:5000/getimages'
+// };
+
 
 /*
  * For easier debugging in development mode, you can import the following file

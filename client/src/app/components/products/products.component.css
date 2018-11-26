@@ -1,0 +1,65 @@
+mat-form-field,
+textarea {
+  width: 100%;
+}
+
+mat-spinner {
+  margin: auto;
+}
+
+input[type="file"] {
+  visibility: hidden;
+}
+
+.image-preview {
+  height: 5rem;
+  margin: 1rem 0;
+}
+
+.image-preview img {
+  height: 100%;
+}
+
+mat-form-field,
+textarea {
+  width: 100%;
+}
+
+mat-spinner {
+  margin: auto;
+}
+
+input[type="file"] {
+  visibility: hidden;
+}
+
+.image-preview {
+  height: 5rem;
+  margin: 1rem 0;
+}
+
+.image-preview img {
+  height: 100%;
+}
+
+.my-drop-zone { border: dotted 3px lightgray !important; }
+.nv-file-over { border: dotted 3px red !important; }
+.another-file-over-class { border: dotted 3px green !important; }
+/* ///////////////////////////////////////////////////////////////////////////////////////////// */
+
+/* drag and drop error */
+.error{ color: #f00; }
+.dragarea{
+    font-size: 24px;
+    border: 3px solid #bbb;
+    padding: 20px ;
+    background-color: #fff;
+    color: #bbb;
+}
+.droparea{
+    font-size: 24px;
+    border: 3px dashed #bbb;
+    padding: 20px ;
+    background-color: #eff;
+    color: #aaa;
+}
